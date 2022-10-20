@@ -1,0 +1,95 @@
+plugins {
+  id "org.asciidoctor.jvm.pdf" version "3.3.0"
+  id "org.asciidoctor.jvm.gems" version "3.3.0"
+}
+
+apply plugin: "java"
+
+version = "0.1.0-SNAPSHOT"
+
+repositories {
+    ruby.gems()
+    mavenCentral()
+}
+
+configurations {
+    asciidoctorExt
+}
+
+dependencies {
+  asciidoctorGems "rubygems:rouge:3.15.0"
+
+  // * No Need Maven
+  // * Only Run
+  // *    $ ./install-jar-to-libs-dir.sh tc
+  // *    $ ./install-jar-to-libs-dir.sh sc
+  // *    $ ./install-jar-to-libs-dir.sh jp
+  // * to download asciidoctor-pdf-cjk-ext jars
+
+  // * SAVE JAR Under User Home DIR libs - install-jar-to-libs-dir.sh
+  // * CAN SHARE IT FOR MANY asciidoctor-pdf-cjk-ext-examples PROJECTS
+  asciidoctorExt fileTree(dir: "${System.getProperty("user.home")}/libs", include: "*.jar")
+}
+
+asciidoctorPdf {
+  dependsOn asciidoctorGemsPrepare
+
+  baseDirFollowsSourceFile()
+
+  asciidoctorj {
+     modules {
+       asciidoctorj {
+         version "2.5.6"
+         configurations "asciidoctorExt"
+        }
+       pdf {
+         version "2.3.0"
+       }
+       diagram {
+         version "2.2.3"
+       }
+     }
+
+    requires "rouge"
+
+    sourceDir file("${project(":pdf-cjk-ext-adocs-examples").projectDir}/src/docs/asciidoc")
+    // * Default all adoc files will create pdf.
+    // * Specific only the adoc file to create pdf.
+    sources { include "PDF-CJK-TEST_TW_T001.adoc" }
+    sources { include "PDF-CJK-TEST_TW_T002.adoc" }
+    sources { include "PDF-CJK-TEST_TW_T003.adoc" }
+    sources { include "PDF-CJK-TEST_TW_P300.adoc" }
+    
+    attributes "build-gradle": file("build.gradle"),
+        "jrubyVersion": "9.3.8.0",
+        // * CONFIG     requires "rouge"
+        "source-highlighter": "rouge",
+        "imagesdir": "images",
+        //"toc": "left",
+        "toc": "",
+        "icons": "font",
+        "idprefix": "",
+        "idseparator": "-",
+        "doctype": "book",
+        "pagenums": "",        
+        //ADD FOR CJK
+        "experimental": "true",
+        "lang": "zh",
+        "safeMode": "SAFE",
+        "scripts": "cjk",
+        // * USE JAR
+        // * REMEMBER ENABLE asciidoctorExt fileTree(dir: "${System.getProperty("user.home")}/libs", include: "*.jar")
+        "pdf-fontsdir": "uri:classloader:/data/fonts;GEM_FONTS_DIR;",
+        // * USER JAR - MIX JAR AND FOLDER
+        //"pdf-fontsdir": "uri:classloader:/data/fonts;GEM_FONTS_DIR;/home/demo/data/fonts;${System.getProperty("user.home")}/downloaded-resources/fonts;",
+        "pdf-themesdir": "uri:classloader:/data/themes",
+        // * https://asciidoctor.github.io/asciidoctor-gradle-plugin/development-3.x/user-guide/
+        // * sourceDir Default: src/docs/asciidoc
+        "pdf-theme": "${sourceDir}/custom-theme/custom-default-ext-notosansmono-cjk-tc-theme.yml"
+        //"pdf-theme": "${sourceDir}/custom-theme/custom-default-notosansmono-cjk-tc-theme.yml"
+        //"pdf-theme": "${sourceDir}/custom-theme/custom-notosansmono-cjk-tc-theme.yml"  
+  }
+}
+
+// alias
+task asciidoctor(dependsOn: asciidoctorPdf)

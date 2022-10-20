@@ -1,0 +1,97 @@
+plugins {
+  id "org.asciidoctor.jvm.pdf" version "3.3.0"
+  id "org.asciidoctor.jvm.gems" version "3.3.0"
+}
+
+apply plugin: "java"
+
+version = "0.1.0-SNAPSHOT"
+
+repositories {
+    ruby.gems()
+    mavenCentral()
+    // * Require by Use JAR install to Maven Local Repo
+    mavenLocal()
+}
+
+configurations {
+    asciidoctorExt
+}
+
+dependencies {
+  asciidoctorGems "rubygems:rouge:3.15.0"
+
+  // * Need Maven - USE WITH Maven Local Repo mavenLocal()
+  // * Only Run
+  // *    $ ./install-jar-to-maven-local-repo.sh tc
+  // *    $ ./install-jar-to-maven-local-repo.sh sc
+  // *    $ ./install-jar-to-maven-local-repo.sh jp
+  // * to download asciidoctor-pdf-cjk-ext and install maven local repo ~/.m2
+
+  // * TC (Traditional Chinese)
+  asciidoctorExt "com.life888888.lab:pdf-ext-notoserif-cjk-tc:0.1.0"
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notosansmono-cjk-tc:0.1.0"
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notosans-cjk-tc:0.1.0"
+}
+
+asciidoctorPdf {
+  dependsOn asciidoctorGemsPrepare
+
+  baseDirFollowsSourceFile()
+
+  asciidoctorj {
+     modules {
+       asciidoctorj {
+         version "2.5.6"
+         configurations "asciidoctorExt"
+        }
+       pdf {
+         version "2.3.0"
+       }
+       diagram {
+         version "2.2.3"
+       }
+     }
+
+    requires "rouge"
+    
+    sourceDir file("${project(":pdf-cjk-ext-adocs-examples").projectDir}/src/docs/asciidoc")
+    sources { include "example-manual.adoc" }
+
+    // * Default all adoc files will create pdf.
+    // * Specific only the adoc file to create pdf.
+    sources { include "example-manual.adoc" }
+
+    attributes "build-gradle": file("build.gradle"),
+        "jrubyVersion": "9.3.8.0",
+        // * "sourcedir" ONLY NEED BY example-manual.adoc
+        //"sourcedir": project.sourceSets.main.java.srcDirs[0],
+        // * USE ANO ANOTHER PROJECT pdf-cjk-ext-adocs-examples
+        "sourcedir": file("${project(":pdf-cjk-ext-adocs-examples").projectDir}/src/main/java"),
+        "endpoint-url": "http://example.org",
+        // * CONFIG     requires "rouge"
+        "source-highlighter": "rouge",
+        "imagesdir": "images",
+        "toc": "left",
+        "icons": "font",
+        "idprefix": "",
+        "idseparator": "-",
+        // * ADD FOR CJK
+        "experimental": "true",
+        "lang": "zh",
+        "safeMode": "SAFE",
+        "scripts": "cjk",
+        // * USE Maven Local Repo
+        // * ENABLE asciidoctorExt "com.life888888.lab:pdf-ext-notosans-cjk-tc:0.1.0"
+        "pdf-fontsdir": "uri:classloader:/data/fonts;GEM_FONTS_DIR;",
+        // * USER JAR - MIX JAR AND FOLDER
+        //"pdf-fontsdir": "uri:classloader:/data/fonts;GEM_FONTS_DIR;/home/demo/data/fonts;${System.getProperty("user.home")}/downloaded-resources/fonts;",
+        "pdf-themesdir": "uri:classloader:/data/themes",
+        // "pdf-theme": "default-ext-notoserif-cjk-tc"
+        // "pdf-theme": "default-notoserif-cjk-tc"
+        "pdf-theme": "notoserif-cjk-tc"                
+  }
+}
+
+// alias
+task asciidoctor(dependsOn: asciidoctorPdf)

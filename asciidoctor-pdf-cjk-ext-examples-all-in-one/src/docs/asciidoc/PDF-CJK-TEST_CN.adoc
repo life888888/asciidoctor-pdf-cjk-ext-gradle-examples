@@ -1,0 +1,125 @@
+= Asciidoctor PDF CJK 测试
+life888888
+:experimental:
+:doctype: article
+//:doctype: book
+:encoding: utf-8
+:lang: zh
+:toc: left
+:numbered:
+:author: life888888
+:subject: Asciidoctor PDF CJK - 测试中文内容转PDF
+:keywords: Asciidoctor,AsciidoctorJ,AsciidocFX,CJK,PDF,Asciidoctor-PDF,Asciidoctor-PDF-CJK-Ext
+:revnumber: 0.0.1
+:revdate: 2022-10-03
+//CUSTOM THEME
+//:pdf-theme: {docdir}/custom-theme/custom-default-ext-notosans-cjk-sc-theme.yml
+//:pdf-theme: {docdir}/custom-theme/custom-default-notosans-cjk-sc-theme.yml
+//:pdf-theme: {docdir}/custom-theme/custom-notosans-cjk-sc-theme.yml
+//ASCIIDOCTOR-PDF-EXT-CJK THEME
+//:pdf-theme: uri:classloader:/data/themes/default-ext-notosans-cjk-sc-theme.yml
+//:pdf-theme: uri:classloader:/data/themes/default-notosans-cjk-sc-theme.yml
+//:pdf-theme: uri:classloader:/data/themes/notosans-cjk-sc-theme.yml
+//:pdf-theme: default-ext-notosans-cjk-sc
+//:pdf-theme: default-notosans-cjk-sc
+//:pdf-theme: notosans-cjk-sc
+// REPLACE notosans to notosansmono or notoserif
+
+ifdef::backend-pdf[]
+
+* backend: **{backend}**
+
+* pdf-theme: **{pdf-theme}**
+
+* pdf-themesdir: **{pdf-themesdir}**
+
+* pdf-fontsdir: **{pdf-fontsdir}**
+
+endif::[]
+
+这是为了测试 AsciidocFX 汇出 PDF 时，中文字型设定是否完整与正确的测试档案 
+
+如果你能在产出的 PDF 看到这段讯息，表示你的 AsciidocFX 的字型设定有完整。 
+
+== 字体样式测试
+
+一般字体样式: 明月几时有，把酒问青天。
+
+粗体字体样式: **不知天上宫阙，今夕是何年？**
+
+斜体字体样式: __我欲乘风归去，又恐琼楼玉宇，高处不胜寒。__
+
+斜粗体字体样式: __**起舞弄清影，何似在人间！**__
+
+[underline]#底线# , 这是^上标字^ , 这是~下标字~ 
+
+=== 第三层标题测试
+
+一般字体样式: 转朱阁，低绮户，照无眠。
+
+粗体字体样式: **不应有恨，何事长向别时圆？**
+
+斜体字体样式: __人有悲欢离合，月有阴晴圆缺，此事古难全。__
+
+斜粗体字体样式: __**但愿人长久，千里共婵娟。**__
+
+==== 第四层标题测试
+
+一般字体样式: 莫听穿林打叶声，何妨吟啸且徐行。
+
+粗体字体样式: **竹杖芒鞋轻胜马，谁怕？一蓑烟雨任平生。**
+
+斜体字体样式: __料峭春风吹酒醒，微冷，山头斜照却相迎。__
+
+斜粗体字体样式: __**回首向来萧瑟处，归去，也无风雨也无晴。**__
+
+== 检查项目
+
+.Checked list
+- [ ] 中文字体是否都显示
+- [ ] 一般字体是否正常显示
+- [ ] 粗体字体是否正常显示
+- [ ] 斜体字体是否正常显示
+- [ ] 斜粗体字体是否正常显示
+
+=== 检查特殊字元
+
+测试 Fallback 设定是否成功 ?
+
+- '‑' \u2011 - non-breaking hyphen
+- '•' \u2022 - disc (used for first-level unordered list level)
+- '◦' \u25e6 - circle (used for second-level unordered list level)
+- '▪' \u25aa - square (used for third-level unordered list level)
+- '☑' \u2611 - ballot box checked (used for checked list item)
+- '☐' \u2610 - ballot box unchecked (used for unchecked list item)
+- '—' \u2014 - em-dash (used in quote attribute)
+- '›' \u203a - single right-pointing quotation mark (used in the menu UI element)
+- '►' \u25ba - right pointer (used for media play icon when icon fonts are disabled)
+- '①' \u2460 - circled numbers
+- '②' \u2461 - circled numbers
+- '③' \u2462 - circled numbers
+- '④' \u2463 - circled numbers
+- '⑤' \u2464 - circled numbers
+- '⑥' \u2465 - circled numbers
+- '⑦' \u2466 - circled numbers
+- '⑧' \u2467 - circled numbers
+- '⑨' \u2468 - circled numbers
+- '⑩' \u2469 - circled numbers
+
+=== Emoji Fonts
+
+- '💀'
+- '✌'
+- '🌴'
+- '🐢'
+- '🐐'
+- '🍄'
+- '⚽'
+- '🍻'
+- '👑'
+- '😬'
+- '👀'
+- '🚨'
+- '🏡'
+- '🏆'
+

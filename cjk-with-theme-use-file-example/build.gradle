@@ -1,0 +1,77 @@
+plugins {
+  id "org.asciidoctor.jvm.pdf" version "3.3.0"
+  id "org.asciidoctor.jvm.gems" version "3.3.0"
+}
+
+apply plugin: "java"
+
+version = "0.1.0-SNAPSHOT"
+
+repositories {
+    ruby.gems()
+    mavenCentral()
+}
+
+dependencies {
+  asciidoctorGems "rubygems:rouge:3.15.0"
+}
+
+asciidoctorPdf {
+  dependsOn asciidoctorGemsPrepare
+
+  baseDirFollowsSourceFile()
+
+  asciidoctorj {
+     modules {
+       asciidoctorj {
+         version "2.5.6"
+        }
+       pdf {
+         version "2.3.0"
+       }
+       diagram {
+         version "2.2.3"
+       }
+     }
+
+    requires "rouge"
+
+    sourceDir file("${project(":pdf-cjk-ext-adocs-examples").projectDir}/src/docs/asciidoc")
+    // * Default all adoc files will create pdf.
+    // * Specific only the adoc file to create pdf.
+    sources { include "README-zh_CN.adoc" }
+    sources { include "README-zh_TW.adoc" }
+    sources { include "README-jp.adoc" }
+    sources { include "README.adoc" }
+
+    attributes "build-gradle": file("build.gradle"),
+        "jrubyVersion": "9.3.8.0",
+        // * CONFIG     requires "rouge"
+        "source-highlighter": "rouge",
+        "imagesdir": "images",
+        //"toc": "left",
+        "toc": "",
+        "icons": "font",
+        "idprefix": "",
+        "idseparator": "-",
+        "doctype": "book",
+        "pagenums": "",        
+        //ADD FOR CJK
+        "experimental": "true",
+        "lang": "zh",
+        "safeMode": "SAFE",
+        "scripts": "cjk",
+        // * USE ZIP - UNZIP DIR YOUR HOME DIR /downloaded-resources
+        // * $ install-zip-to-downloaded-resources-dir.sh tc
+        "pdf-fontsdir": "${System.getProperty("user.home")}/downloaded-resources/fonts;GEM_FONTS_DIR;",
+        "pdf-themesdir": "${System.getProperty("user.home")}/downloaded-resources/themes",
+        // * https://asciidoctor.github.io/asciidoctor-gradle-plugin/development-3.x/user-guide/
+        // * sourceDir Default: src/docs/asciidoc
+        "pdf-theme": "${sourceDir}/custom-theme/custom-default-ext-notosans-cjk-tc-theme.yml"
+        //"pdf-theme": "${sourceDir}/custom-theme/custom-default-notosans-cjk-tc-theme.yml"                
+        //"pdf-theme": "${sourceDir}/custom-theme/custom-notosans-cjk-tc-theme.yml"      
+  }
+}
+
+// alias
+task asciidoctor(dependsOn: asciidoctorPdf)

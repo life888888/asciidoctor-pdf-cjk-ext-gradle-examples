@@ -1,0 +1,107 @@
+plugins {
+  id "org.asciidoctor.jvm.pdf" version "3.3.0"
+  id "org.asciidoctor.jvm.gems" version "3.3.0"
+}
+
+apply plugin: "java"
+
+version = "0.1.0-SNAPSHOT"
+
+repositories {
+    ruby.gems()
+    mavenCentral()
+    // * Require by Use JAR install to Maven Local Repo
+    mavenLocal()
+}
+
+configurations {
+    asciidoctorExt
+}
+
+dependencies {
+  asciidoctorGems "rubygems:rouge:3.15.0"
+
+  // * Need Maven - USE WITH Maven Local Repo mavenLocal()
+  // * Only Run
+  // *    $ ./install-jar-to-maven-local-repo.sh tc
+  // *    $ ./install-jar-to-maven-local-repo.sh sc
+  // *    $ ./install-jar-to-maven-local-repo.sh jp
+  // * to download asciidoctor-pdf-cjk-ext and install maven locak repo ~/.m2
+
+  // * TC (Traditional Chinese)
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notoserif-cjk-tc:0.1.0"
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notosansmono-cjk-tc:0.1.0"
+  asciidoctorExt "com.life888888.lab:pdf-ext-notosans-cjk-tc:0.1.0"
+}
+
+asciidoctorPdf {
+  dependsOn asciidoctorGemsPrepare
+
+  baseDirFollowsSourceFile()
+
+  asciidoctorj {
+     modules {
+       asciidoctorj {
+         version "2.5.6"
+         configurations "asciidoctorExt"
+        }
+       pdf {
+         version "2.3.0"
+       }
+       diagram {
+         version "2.2.3"
+       }
+     }
+
+    requires "rouge"
+
+    sourceDir file("${project(":pdf-cjk-ext-adocs-examples").projectDir}/src/docs/asciidoc")
+    // * Default all adoc files will create pdf.
+    // * Specific only the adoc file to create pdf.
+    sources { include "PDF-CJK-TEST_TW_T001.adoc" }
+    sources { include "PDF-CJK-TEST_TW_T002.adoc" }
+    sources { include "PDF-CJK-TEST_TW_T003.adoc" }
+    sources { include "PDF-CJK-TEST_TW_P300.adoc" }
+
+    attributes "build-gradle": file("build.gradle"),
+        "jrubyVersion": "9.3.8.0",
+        "toc": "",
+        "idprefix": "",
+        "idseparator": "-",
+        "pagenums": "",
+        "allow-uri-read": "",
+        "lang": "zh",
+        "safeMode": "SECURE",
+        "scripts": "cjk",
+        // * CONFIG     requires "rouge"
+        "source-highlighter": "rouge",
+        "icons": "font",
+        "imagesdir": "images",
+        "experimental": "true",
+        // * USE JAR
+        // * REMEMBER ENABLE asciidoctorExt fileTree(dir: "${System.getProperty("user.home")}/libs", include: "*.jar")
+        // * OR ENABLE asciidoctorExt "com.life888888.lab:pdf-ext-notosansmono-cjk-tc:0.1.0"
+        "pdf-fontsdir": "uri:classloader:/data/fonts;GEM_FONTS_DIR;",
+        // * USER JAR - MIX JAR AND FOLDER
+        //"pdf-fontsdir": "uri:classloader:/data/fonts;GEM_FONTS_DIR;/home/demo/data/fonts;${System.getProperty("user.home")}/downloaded-resources/fonts;",
+        "pdf-themesdir": "uri:classloader:/data/themes",
+
+        // * asciidoctor-pdf-cjk-ext Themes List
+        // * TC (Traditional Chinese)
+        // * Font Noto Sans CJK TC
+        "pdf-theme": "default-ext-notosans-cjk-tc"
+        //"pdf-theme": "default-notosans-cjk-tc"
+        //"pdf-theme": "notosans-cjk-tc"
+        // * Font Noto Sans Mono CJK TC
+        //"pdf-theme": "default-ext-notosansmono-cjk-tc"
+        //"pdf-theme": "default-notosansmono-cjk-tc"
+        //"pdf-theme": "notosansmono-cjk-tc"
+        // * Font Noto Serif CJK TC
+        //"pdf-theme": "default-ext-notoserif-cjk-tc"
+        //"pdf-theme": "default-notoserif-cjk-tc"
+        //"pdf-theme": "notoserif-cjk-tc"
+  }
+}
+
+// alias
+task asciidoctor(dependsOn: asciidoctorPdf)

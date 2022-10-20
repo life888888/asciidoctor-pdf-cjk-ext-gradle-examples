@@ -1,0 +1,53 @@
+rootProject.name = "asciidoctor-pdf-cjk-ext-gradle-examples"
+
+//SHARE Asciidocs Files
+include "pdf-cjk-ext-adocs-examples"
+
+//MODIFY FROM asciidoctor-gradle-examples/asciidoc-to-pdf-example
+//OK
+include "manual-example"
+include "manual-use-file-example"
+include "manual-use-jar-example"
+include "manual-use-maven-repo-example"
+
+//MODIFY FROM asciidoctor-gradle-examples/asciidoc-to-pdf-example
+//MODIFY FROM asciidoctor-maven-examples-main/asciidoctor-pdf-with-theme-example
+//OK
+include "manual-with-theme-example"
+include "manual-with-theme-use-file-example"
+include "manual-with-theme-use-jar-example"
+include "manual-with-theme-use-maven-repo-example"
+
+//OK
+include "cjk-demo-use-file-example"
+include "cjk-demo-use-jar-example"
+include "cjk-demo-use-maven-repo-example"
+
+//MODIFY FROM asciidoctor-maven-examples-main/asciidoctor-pdf-with-theme-example
+include "cjk-demo-with-theme-use-file-example"
+include "cjk-demo-with-theme-use-jar-example"
+include "cjk-demo-with-theme-use-maven-repo-example"
+
+
+
+//MODIFY FROM asciidoctor-maven-examples-main/asciidoctor-pdf-cjk-example
+//README-xx.adoc
+include "cjk-use-file-example"
+include "cjk-use-jar-example"
+include "cjk-use-maven-example"
+
+//MODIFY FROM asciidoctor-maven-examples-main/asciidoctor-pdf-with-theme-example
+include "cjk-with-theme-use-file-example"
+include "cjk-with-theme-use-jar-example"
+include "cjk-with-theme-use-maven-example"
+
+
+include "cjk-test-use-file-example"
+include "cjk-test-use-jar-example"
+include "cjk-test-use-maven-repo-example"
+
+//MODIFY FROM asciidoctor-maven-examples-main/asciidoctor-pdf-with-theme-example
+include "cjk-test-with-theme-use-file-example"
+include "cjk-test-with-theme-use-jar-example"
+include "cjk-test-with-theme-use-maven-repo-example"
+

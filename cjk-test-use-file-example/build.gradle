@@ -1,0 +1,83 @@
+plugins {
+  id "org.asciidoctor.jvm.pdf" version "3.3.0"
+  id "org.asciidoctor.jvm.gems" version "3.3.0"
+}
+
+apply plugin: "java"
+
+version = "0.1.0-SNAPSHOT"
+
+repositories {
+    ruby.gems()
+    mavenCentral()
+}
+
+dependencies {
+  asciidoctorGems "rubygems:rouge:3.15.0"
+}
+
+asciidoctorPdf {
+  dependsOn asciidoctorGemsPrepare
+
+  baseDirFollowsSourceFile()
+
+  asciidoctorj {
+     modules {
+       asciidoctorj {
+         version "2.5.6"
+        }
+       pdf {
+         version "2.3.0"
+       }
+       diagram {
+         version "2.2.3"
+       }
+     }
+
+    requires "rouge"
+
+    sourceDir file("${project(":pdf-cjk-ext-adocs-examples").projectDir}/src/docs/asciidoc")
+    // * Default all adoc files will create pdf.
+    // * Specific only the adoc file to create pdf.
+    sources { include "PDF-CJK-TEST_TW.adoc" }
+    sources { include "PDF-CJK-TEST_CN.adoc" }
+    sources { include "PDF-CJK-TEST_JP.adoc" }
+
+    attributes "build-gradle": file("build.gradle"),
+        "jrubyVersion": "9.3.8.0",
+        "toc": "",
+        "idprefix": "",
+        "idseparator": "-",
+        "pagenums": "",
+        "allow-uri-read": "",
+        "lang": "zh",
+        "safeMode": "SECURE",
+        "scripts": "cjk",
+        // * CONFIG     requires "rouge"
+        "source-highlighter": "rouge",
+        "icons": "font",
+        "imagesdir": "images",
+        "experimental": "true",
+        // * USE ZIP - UNZIP DIR YOUR HOME DIR /downloaded-resources
+        // * $ install-zip-to-downloaded-resources-dir.sh tc
+        "pdf-fontsdir": "${System.getProperty("user.home")}/downloaded-resources/fonts;GEM_FONTS_DIR;",
+        "pdf-themesdir": "${System.getProperty("user.home")}/downloaded-resources/themes",
+        // * asciidoctor-pdf-cjk-ext Themes List
+        // * TC (Traditional Chinese)
+        // * Font Noto Sans CJK TC
+        "pdf-theme": "default-ext-notosans-cjk-tc"
+        //"pdf-theme": "default-notosans-cjk-tc"
+        //"pdf-theme": "notosans-cjk-tc"
+        // * Font Noto Sans Mono CJK TC
+        //"pdf-theme": "default-ext-notosansmono-cjk-tc"
+        //"pdf-theme": "default-notosansmono-cjk-tc"
+        //"pdf-theme": "notosansmono-cjk-tc"
+        // * Font Noto Serif CJK TC
+        //"pdf-theme": "default-ext-notoserif-cjk-tc"
+        //"pdf-theme": "default-notoserif-cjk-tc"
+        //"pdf-theme": "notoserif-cjk-tc"
+  }
+}
+
+// alias
+task asciidoctor(dependsOn: asciidoctorPdf)

@@ -1,0 +1,451 @@
+= Asciidoctor
+Dan Allen <https://github.com/mojavelinux[@mojavelinux]>; Sarah White <https://github.com/graphitefriction[@graphitefriction]>
+// settings:
+:page-layout: base
+:idprefix:
+:idseparator: -
+:source-language: ruby
+:subject: Asciidoctor PDF CJK - 測試中文內容轉PDF
+:keywords: Asciidoctor,AsciidocFX,CJK,PDF,Asciidoctor-PDF,Asciidoctor-PDF-CJK-Ext
+ifndef::env-github[:icons: font]
+ifdef::env-github[]
+:status:
+:caution-caption: :fire:
+:important-caption: :exclamation:
+:note-caption: :paperclip:
+:tip-caption: :bulb:
+:warning-caption: :warning:
+endif::[]
+// Variables:
+:release-version: 2.0.16
+// URIs:
+:uri-org: https://github.com/asciidoctor
+:uri-repo: {uri-org}/asciidoctor
+:uri-asciidoctorj: {uri-org}/asciidoctorj
+:uri-asciidoctorjs: {uri-org}/asciidoctor.js
+:uri-project: https://asciidoctor.org
+ifdef::env-site[:uri-project: link:]
+:uri-docs: {uri-project}/docs
+:uri-news: {uri-project}/news
+:uri-manpage: {uri-project}/man/asciidoctor
+:uri-issues: {uri-repo}/issues
+:uri-contributors: {uri-repo}/graphs/contributors
+:uri-rel-file-base: link:
+:uri-rel-tree-base: link:
+ifdef::env-site[]
+:uri-rel-file-base: {uri-repo}/blob/HEAD/
+:uri-rel-tree-base: {uri-repo}/tree/HEAD/
+endif::[]
+:uri-changelog: {uri-rel-file-base}CHANGELOG.adoc
+:uri-contribute: {uri-rel-file-base}CONTRIBUTING.adoc
+:uri-license: {uri-rel-file-base}LICENSE
+:uri-tests: {uri-rel-tree-base}test
+:uri-discuss: https://discuss.asciidoctor.org
+:uri-chat: https://asciidoctor.zulipchat.com
+:uri-rubygem: https://rubygems.org/gems/asciidoctor
+:uri-what-is-asciidoc: {uri-docs}/what-is-asciidoc
+:uri-user-manual: {uri-docs}/user-manual
+:uri-install-docker: https://github.com/asciidoctor/docker-asciidoctor
+//:uri-install-doc: {uri-docs}/install-toolchain
+:uri-install-osx-doc: {uri-docs}/install-asciidoctor-macosx
+:uri-render-doc: {uri-docs}/render-documents
+:uri-themes-doc: {uri-docs}/produce-custom-themes-using-asciidoctor-stylesheet-factory
+:uri-gitscm-repo: https://github.com/git/git-scm.com
+:uri-freesoftware: https://www.gnu.org/philosophy/free-sw.html
+:uri-foundation: https://foundation.zurb.com
+:uri-tilt: https://github.com/rtomayko/tilt
+:uri-ruby: https://ruby-lang.org
+// images:
+//:image-uri-screenshot: https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor/screenshot.png
+:image-uri-screenshot: screenshot.png
+//CUSTOM THEME
+//:pdf-theme: {docdir}/custom-theme/custom-default-ext-notosans-cjk-tc-theme.yml
+//:pdf-theme: {docdir}/custom-theme/custom-default-notosans-cjk-tc-theme.yml
+//:pdf-theme: {docdir}/custom-theme/custom-notosans-cjk-tc-theme.yml
+//ASCIIDOCTOR-PDF-EXT-CJK THEME
+//:pdf-theme: uri:classloader:/data/themes/default-ext-notosans-cjk-tc-theme.yml
+//:pdf-theme: uri:classloader:/data/themes/default-notosans-cjk-tc-theme.yml
+//:pdf-theme: uri:classloader:/data/themes/notosans-cjk-tc-theme.yml
+//:pdf-theme: default-ext-notosans-cjk-tc
+//:pdf-theme: default-notosans-cjk-tc
+//:pdf-theme: notosans-cjk-tc
+// REPLACE notosans to notosansmono or notoserif
+
+ifdef::backend-pdf[]
+
+* backend: **{backend}**
+
+* pdf-theme: **{pdf-theme}**
+
+* pdf-themesdir: **{pdf-themesdir}**
+
+* pdf-fontsdir: **{pdf-fontsdir}**
+
+endif::[]
+
+{uri-project}/[Asciidoctor] 是一個 _快速_ 文本處理器和發佈工具鏈，它可以將 {uri-what-is-asciidoc}[AsciiDoc] 文檔轉換成 HTML 5、 DocBook 5 以及其他格式。
+Asciidoctor 由 Ruby 編寫，打包成 RubyGem，然後發佈到 {uri-rubygem}[RubyGems.org] 上。
+這個 gem 還被包含到幾個 Linux 發行版中，其中包括 Fedora、Debian 和 Ubuntu。
+Asciidoctor 是開源的，link:{uri-repo}[代碼託管在 GitHub]，遵從 {uri-license}[MIT] 協議。
+
+該文檔有如下語言的翻譯版：
+
+* {uri-rel-file-base}README.adoc[English]
+* {uri-rel-file-base}README-fr.adoc[Français]
+* {uri-rel-file-base}README-jp.adoc[日本語]
+
+.關鍵文檔
+[.compact]
+* {uri-docs}/what-is-asciidoc[Asciidoctor 是什麼？]
+* {uri-docs}/asciidoc-writers-guide[AsciiDoc 寫作指南]
+* {uri-docs}/asciidoc-syntax-quick-reference[AsciiDoc 語法快速參考]
+* {uri-docs}/user-manual[Asciidoctor 用戶手冊]
+
+ifdef::status[]
+image:https://img.shields.io/gem/v/asciidoctor.svg[Latest Release, link={uri-gem}]
+image:https://img.shields.io/badge/rubydoc.info-{release-version}-blue.svg[library (API) docs,link=https://www.rubydoc.info/gems/asciidoctor/{release-version}]
+image:https://github.com/asciidoctor/asciidoctor/workflows/CI/badge.svg[Build Status (GitHub Actions),link={uri-repo}/actions]
+image:https://img.shields.io/badge/zulip-join_chat-brightgreen.svg[Project Chat,link={uri-chat}]
+endif::[]
+
+.Ruby 所至， Asciidoctor 相隨
+****
+使用 JRuby 讓 Asciidoctor 運行在 Java 虛擬機上。
+使用 {uri-asciidoctorj}[AsciidoctorJ] 直接調用 Asciidoctor 的 API 運行在 Java 或者其他 Java 虛擬機中。
+基於 AsciidoctorJ 有好多插件可用，這些插件可以將 Asciidoctor 整合到 Apache Maven，Gradle 或 Javadoc 構建中。
+
+Asciidoctor 也可以運行在 JavaScript 上。
+我們可以使用 https://opalrb.com[Opal] 將 Ruby 源碼編譯成 JavaScript 生成 {uri-asciidoctorjs}[Asciidoctor.js] 文件，這是一個全功能版的 Asciidoctor，可以運行在任意的 JavaScript 環境中，比如 Web 瀏覽器 或 Node.js。
+Asciidoctor.js 被用於預覽 AsciiDoc，支持 Chrome 擴展，Atom，Brackets 或其他基於 Web 的工具。
+****
+
+[#the-big-picture]
+== 整體概況
+
+Asciidoctor 以純文本格式讀取內容，見下圖左邊的面板，並將它轉換成 HTML 5 呈現在右側面板中。
+Asciidoctor 將預設的樣式表應用到 HTML 5 文檔上，提供一個愉快的開箱即用的體驗。
+
+image::{image-uri-screenshot}[AsciiDoc 源文預覽和相應的 HTML 渲染]
+
+[#asciidoc-processing]
+== AsciiDoc Processing
+
+Asciidoctor 會讀取並處理用 AsciiDoc 語法寫的文件，然後將解析出來的解析樹參數交給內置的轉換器去生成 HTML 5，DocBook 5 或幫助手冊頁面輸出。
+你可以選擇使用你自己的轉換器或者加載 {uri-tilt}[Tilt] - 支持通過模板來自定義輸出或產生附加的格式。
+
+NOTE: Asciidoctor是爲了直接替換原 AsciiDoc Python 處理器（`asciidoc.py`）。
+Asciidoctor 測試套件含有 {uri-tests}[> 1,600 測試示例] 來確保和 AsciiDoc 語法的兼容性。
+
+除了傳統的 AsciiDoc 語法，Asciidoctor 還添加額外的標記和格式設置選項，例如 font-based 圖標（例如： `+icon:fire[]+`）和 UI 元素（例如： `+button:[Save]+`）。
+Asciidoctor 還提供了一個基於 {uri-foundation}[Foundation] 的現代化的、響應式主題來美化 HTML 5 輸出。
+
+[#requirements]
+== 要求
+
+Asciidoctor 可以運行在 Linux，OSX (Mac) 和 Windows 系統，但需要安裝下面任意一個 {uri-ruby}[Ruby] 環境去實現：
+
+* CRuby (aka MRI) 2.3 - 2.6
+* JRuby 9.1 - 9.2
+* TruffleRuby (GraalVM)
+* Opal (JavaScript)
+
+我們歡迎你來幫助在這些以及其他平臺測試 Asciidoctor。
+
+請參考 <<{idprefix}contributing,Contributing>> 來了解如何參與。
+
+[CAUTION]
+====
+如果在非英語的 Windows 環境，當你去調用 Asciidoctor 時，可能會碰到 `Encoding::UndefinedConversionError` 的錯誤提示。
+爲了解決這個問題，我們建議將控制檯的編碼更改爲 UTF-8：
+
+ chcp 65001
+
+一旦你做了這個改變，所有的編碼問題，都將迎刃而解。
+如果你使用的是像 Eclipse 這樣的 IDE 集成開發工具，你也需要確保他被你設置爲 UTF-8 編碼。
+使用 UTF-8 能使 Asciidoctor 在任何地方都能正常工作。
+====
+
+[#installation]
+== 安裝
+
+Asciidoctor 可以通過三種方式安裝（a）`gem install` 命令；（b）Bundler打包編譯；（c）流行的 Linux 發行版的包管理器
+
+TIP: 使用 Linux 包管理器安裝的好處是如果你機器在之前沒有安裝 Ruby 和 RubyGems 庫，當你選擇這種方式安裝時它們會一併安裝上去。
+不利的是在 gem 發佈之後，這類安裝包並不是立即可用。
+如果你需要安裝最新版，你應該總是優先使用 `gem` 命令安裝。
+
+[#a-gem-install]
+=== (a) gem 安裝
+
+打開一個終端輸入如下命令（不含開頭的 `$`）：
+
+ $ gem install asciidoctor
+
+如果想安裝一個預覽版（比如：候選發佈版），請使用：
+
+ $ gem install asciidoctor --pre
+
+.升級
+[TIP]
+====
+如果你安裝有的是舊版本 Asciidoctor，你可以使用下面的命令來升級：
+
+ $ gem update asciidoctor
+
+如果使用 `gem install` 命令來安裝一個新版本的 gem 來代替升級，會安裝多個版本。
+這種情況，你可以使用下面的 gem 命令來移除舊版本：
+
+ $ gem cleanup asciidoctor
+====
+
+[#b-bundler]
+=== (b) Bundler
+
+. 在專案的根目錄（或者當前路徑），創建一個 `Gemfile` 文件；
+. 在這個文件中添加 `asciidoctor` gem 如下：
++
+[subs=attributes+]
+----
+source 'https://rubygems.org'
+gem 'asciidoctor'
+# 或者明確指明版本
+# gem 'asciidoctor', '{release-version}'
+----
+
+. 保存 `Gemfile` 文件
+. 打開終端，使用如下命令安裝 gem：
+
+ $ bundle
+
+要升級 gem 的話，在 `Gemfile` 文件中，指明新版本，然後再次運行 `bundle` 即可。
+*不推薦* 直接使用 `bundle update` 命令，因爲它還會升級其他 gem，也許會造成不可預料的結果。
+
+[#c-linux-package-managers]
+=== (c) Linux 包管理
+
+[#dnf-fedora-21-or-greater]
+==== DNF (Fedora 21 或更高版本)
+
+在 Fedora 21 或更高版本中安裝這個 gem，可以使用 dnf。打開終端並輸入如下命令：
+
+ $ sudo dnf install -y asciidoctor
+
+升級則使用：
+
+ $ sudo dnf update -y asciidoctor
+
+TIP: 如果你的 Fedora 系統配置的是自動升級包，在這種情況下，不需要你親自動手升級。
+
+[#apt-get-debian-ubuntu-mint]
+==== apt-get (Debian, Ubuntu, Mint)
+
+在 Debian，Ubuntu 或 Mint 中安裝這個 gem，請打開終端並輸入如下命令：
+
+ $ sudo apt-get install -y asciidoctor
+
+升級則使用：
+
+ $ sudo apt-get upgrade -y asciidoctor
+
+TIP: 如果你的 Debian 或 Ubuntu 系統配置的是自動升級包，在這種情況下，不需要你親自動手升級。
+
+使用包管理器（ apt-get ）安裝的 Asciidoctor 的版本也許不是最新發布版。
+請查看發行版的包庫，來確定每個發行版是打包的哪個版本。
+
+* https://packages.debian.org/search?keywords=asciidoctor&searchon=names&exact=1&suite=all&section=all[Debian 發行版中的 asciidoctor]
+* https://packages.ubuntu.com/search?keywords=asciidoctor&searchon=names&exact=1&suite=all&section=all[Ubuntu 發行版中的 asciidoctor]
+* https://community.linuxmint.com/software/view/asciidoctor[Mint 發行版中的 asciidoctor]
+
+[CAUTION]
+====
+我們建議不要使用 `gem update` 來升級包管理的 gem。
+這樣做會使系統進入不一致的狀態，包管理工具將不再跟蹤相關文件（通常安裝在 /usr/local 下。）
+簡單地說，系統的 gem 只能由包管理器進行管理。
+
+如果你想使用一個比包管理器安裝的更新版本的 Asciidoctor，你應該使用 https://rvm.io[RVM] 在你的用戶家目錄（比如：用戶空間）下安裝 Ruby。
+然後，你就可以放心地使用 `gem` 命令來安裝或者更新 Asciidoctor gem。
+當使用 RVM 時，gem 將被安裝到與系統隔離的位置。
+====
+
+[#apk-alpine-linux]
+==== apk (Alpine Linux)
+
+在 Alpine Linux 中安裝這個 gem，請打開終端並輸入如下命令：
+
+ $ sudo apk add asciidoctor
+
+升級則使用：
+
+ $ sudo apk add -u asciidoctor
+
+TIP: 如果你的 Alpine Linux 系統配置的是自動升級包，在這種情況下，不需要你親自動手升級。
+
+[#other-installation-options]
+=== 其他安裝選項
+
+* {uri-install-docker}[使用 Docker 安裝 Asciidoctor ]
+* {uri-install-osx-doc}[在 Mac OS X 安裝 Asciidoctor ]
+
+[#usage]
+== 使用
+
+如果成功安裝 Asciidoctor，則在可執行程序路徑中，`asciidoctor` 就可用了。
+爲了驗證它的可用性，你可以在終端中執行如下命令：
+
+ $ asciidoctor --version
+
+你應該看到關於 Asciidoctor 和 Ruby 環境信息將打印到你的終端上。
+
+[.output,subs=attributes+]
+....
+Asciidoctor {release-version} [https://asciidoctor.org]
+Runtime Environment (ruby 2.4.1p111 [x86_64-linux]) (lc:UTF-8 fs:UTF-8 in:- ex:UTF-8)
+....
+
+Asciidoctor 還提供了一套 API。
+這套 API 是爲了整合其他的 Ruby 軟件，例如 Rails、Sinatra、GitHub，甚至其他語言，比如 Java （通過 {uri-asciidoctorj}[AsciidoctorJ]） 和 JavaScript （通過 {uri-asciidoctorjs}[Asciidoctor.js]）。
+
+[#command-line-interface-cli]
+=== 命令行（CLI）
+
+`asciidoctor` 命令可以讓你通過命令行（比如：終端）來調用 Asciidoctor。
+
+下面的命令將 README.adoc 文件轉換爲 HTML，並且保存到同一目錄下的 README.html 文件中。
+生成的 HTML 文件名源自源文件名，只是將其擴展名改爲了 `.html`。
+
+ $ asciidoctor README.adoc
+
+您可以通過添加各種標誌和開關控制 Asciidoctor 處理器，通過下面的命令你可以學習它的更多用法：
+
+ $ asciidoctor --help
+
+比如，將文件寫入到不同路徑裏，使用如下命令：
+
+ $ asciidoctor -D output README.adoc
+
+`asciidoctor` {uri-manpage}[幫助頁面] 提供了這個命令的完整參考。
+
+點擊下面的資源，學習更多關於 `asciidoctor` 命令的用法。
+
+* {uri-render-doc}[如何轉換文檔？]
+* {uri-themes-doc}[如何使用 Asciidoctor 樣式工廠來創建自定義主題？]
+
+[#ruby-api]
+=== Ruby API
+
+爲了在你應用中使用 Asciidoctor，首先需要引入這個 gem：
+
+----
+require 'asciidoctor'
+----
+
+然後，你可以通過下面的代碼將 AsciiDoc 源文件轉換成一個 HTML 文件：
+
+----
+Asciidoctor.convert_file 'README.adoc', to_file: true, safe: :safe
+----
+
+WARNING: 當你通過 API 使用 Asciidoctor 時，預設的安全模式是 `:secure`。
+在 secure 模式下，很多核心特性將不可用，包括 `include` 特性。
+如果你想啓用這些特性，你需要明確設置安全模式爲 `:server` （推薦）或 `:safe`。
+
+你也可以將 AsciiDoc 字符串轉換爲可內嵌的 HTML （爲了插入到一個 HTML 頁面），用法如下：
+
+----
+content = '_Zen_ in the art of writing https://asciidoctor.org[AsciiDoc].'
+Asciidoctor.convert content, safe: :safe
+----
+
+如果你想得到完整的 HTML 文檔，只需要啓用 `header_footer` 選項即可。如下：
+
+----
+content = '_Zen_ in the art of writing https://asciidoctor.org[AsciiDoc].'
+html = Asciidoctor.convert content, header_footer: true, safe: :safe
+----
+
+如果你想訪問已經處理過的文檔，可以將轉換過程拆分成分離的幾步驟：
+
+----
+content = '_Zen_ in the art of writing https://asciidoctor.org[AsciiDoc].'
+document = Asciidoctor.load content, header_footer: true, safe: :safe
+puts document.doctitle
+html = document.convert
+----
+
+請注意：如果你不喜歡 Asciidoctor 輸出結果，_你完全可以改變它。_
+Asciidoctor 支持自定義轉換器，它可以操作從待處理文件到生成文檔整個環節。
+
+一個簡單的、細微地自定義輸出的方式是使用模板轉換器。
+模板轉換器運行你提供一個 {uri-tilt}[Tilt] 模板，這樣通過模板文件來操作轉換出的文檔的每個節點。
+
+這樣，你就 _可以_ 百分之百地控制你的輸出。
+關於更多關於 API 或自定義輸出信息，請參考 {uri-user-manual}[用戶幫助手冊]。
+
+[#contributing]
+== 貢獻
+
+自由軟件的精神鼓勵 _每個人_ 來幫助改善這個專案。
+如果你在源碼、文檔或網站內容中發現錯誤或漏洞，請不要猶豫，提交一個議題或者推送一個修復請求。
+隨時歡迎新的貢獻者！
+
+這裏有幾種 *你* 可以做出貢獻的方式：
+
+* 使用預發佈版本（alpha, beta 或 preview）
+* 報告 Bug
+* 提議新功能
+* 編寫文檔
+* 編寫規範
+* 編寫 -- _任何補丁都不小。_
+** 修正錯別字
+** 添加評論
+** 清理多餘空白
+** 編寫測試！
+* 重構代碼
+* 修復 {uri-issues}[issues]
+* 審查補丁
+
+{uri-contribute}[貢獻指南]提供瞭如何提供貢獻，包括如何創建、修飾和提交問題、特性、需求、代碼和文檔給 Asciidoctor 專案。
+
+[#getting-help]
+== 獲得幫助
+
+開發 Asciidoctor 專案是未來了幫助你更容易地書寫和發佈你的內容。
+但是，如果沒有反饋，我們將寸步難行。
+我們鼓勵你在討論組、Twitter或聊天室裏，提問爲題，討論專案的方方面面，
+
+聊天 (Zulip):: {uri-chat}
+討論組 (Nabble):: {uri-discuss}
+Twitter:: https://twitter.com/search?f=tweets&q=%23asciidoctor[#asciidoctor] 來加入話題 或 https://twitter.com/asciidoctor[@asciidoctor] at並提醒我們
+
+ifdef::env-github[]
+Further information and documentation about Asciidoctor can be found on the project's website.
+
+{uri-project}/[Home] | {uri-news}[News] | {uri-docs}[Docs]
+endif::[]
+
+Asciidoctor 組織在 GitHub 託管代碼、議案跟蹤和相關子專案。
+
+代碼庫 (git):: {uri-repo}
+議案跟蹤:: {uri-issues}
+在 GitHub 的 Asciidoctor 組織:: {uri-org}
+
+[#copyright-and-licensing]
+== 版權和協議
+
+Copyright (C) 2012-present Dan Allen, Sarah White, Ryan Waldron, and the individual contributors to Asciidoctor.
+這個軟件的免費使用是在MIT許可條款授予的。
+
+請看 {uri-license}[版權聲明] 文件來獲取更多詳細信息。
+
+[#authors]
+== 作者
+
+*Asciidoctor* 由 https://github.com/mojavelinux[Dan Allen] 和 https://github.com/graphitefriction[Sarah White] 領導，並從 Asciidoctor 社區的 {uri-contributors}[很多其他獨立開發者] 上收到了很多貢獻。
+專案最初由 https://github.com/erebor[Ryan Waldron] 於 2012年基於 https://github.com/nickh[Nick Hengeveld] 的原型創建。
+
+*AsciiDoc* 由 Stuart Rackham 啓動，並從 AsciiDoc 社區的其他獨立開發者上收到很多貢獻。
+
+== 商標
+
+AsciiDoc(R) and AsciiDoc Language(TM) are trademarks of the Eclipse Foundation, Inc.
+

@@ -1,0 +1,214 @@
+plugins {
+  id "org.asciidoctor.jvm.pdf" version "3.3.0"
+  id "org.asciidoctor.jvm.gems" version "3.3.0"
+}
+
+apply plugin: "java"
+
+version = "0.1.0-SNAPSHOT"
+
+repositories {
+    ruby.gems()
+    mavenCentral()
+    // * Require by Use JAR install to Maven Local Repo
+    //mavenLocal()
+}
+
+configurations {
+    asciidoctorExt
+}
+
+dependencies {
+  asciidoctorGems "rubygems:rouge:3.15.0"
+
+  // * No Need Maven
+  // * Only Run
+  // *    $ ./install-jar-to-libs-dir.sh tc
+  // *    $ ./install-jar-to-libs-dir.sh sc
+  // *    $ ./install-jar-to-libs-dir.sh jp
+  // * to download asciidoctor-pdf-cjk-ext jars
+
+  // * SAVE JAR Under User Home DIR libs - install-jar-to-libs-dir.sh
+  // * CAN SHARE IT FOR MANY asciidoctor-pdf-cjk-ext-examples PROJECTS
+  asciidoctorExt fileTree(dir: "${System.getProperty("user.home")}/libs", include: "*.jar")
+
+  // * Need Maven - USE WITH Maven Local Repo mavenLocal()
+  // * Only Run
+  // *    $ ./install-jar-to-maven-local-repo.sh tc
+  // *    $ ./install-jar-to-maven-local-repo.sh sc
+  // *    $ ./install-jar-to-maven-local-repo.sh jp
+  // * to download asciidoctor-pdf-cjk-ext and install maven locak repo ~/.m2
+
+  // * TC (Traditional Chinese)
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notoserif-cjk-tc:0.1.0"
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notosansmono-cjk-tc:0.1.0"
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notosans-cjk-tc:0.1.0"
+  // * SC (Simplified Chinese)
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notoserif-cjk-sc:0.1.0"
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notosansmono-cjk-sc:0.1.0"
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notosans-cjk-sc:0.1.0"
+  // * HK (Hong Kong)
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notoserif-cjk-hk:0.1.0"
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notosansmono-cjk-hk:0.1.0"
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notosans-cjk-hk:0.1.0"
+  // * JP (Japanese)
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notoserif-cjk-jp:0.1.0"
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notosansmono-cjk-jp:0.1.0"
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notosans-cjk-jp:0.1.0"
+  // * KR (Korean)
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notoserif-cjk-kr:0.1.0"
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notosansmono-cjk-kr:0.1.0"
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notosans-cjk-kr:0.1.0"
+}
+
+asciidoctorPdf {
+  dependsOn asciidoctorGemsPrepare
+
+  baseDirFollowsSourceFile()
+
+  asciidoctorj {
+     modules {
+       asciidoctorj {
+         version "2.5.6"
+         configurations "asciidoctorExt"
+        }
+       pdf {
+         version "2.3.0"
+       }
+       diagram {
+         version "2.2.3"
+       }
+     }
+
+    requires "rouge"
+
+    //OK REFERENCE SUB PROJECT AAAA TO SHARE *.adoc FILES
+    //sourceDir file("${project(":pdf-cjk-ext-adocs-examples").projectDir}/src/docs/asciidoc")
+    //outputDir file("build/docs/asciidocPdf/default-theme")
+    
+    
+    // * Default all adoc files will create pdf.
+    // * Specific only the adoc file to create pdf.
+    //sources { include "example-manual.adoc" }
+    //sources { include "README-zh_CN.adoc" }
+    //sources { include "README-zh_TW.adoc" }
+    //sources { include "README-zh_jp.adoc" }
+    //sources { include "README.adoc" }
+    sources { include "PDF-CJK-TEST_TW.adoc" }
+    //sources { include "PDF-CJK-TEST_CN.adoc" }
+    //sources { include "PDF-CJK-TEST_JP.adoc" }
+    //sources { include "PDF-CJK-TEST_TW_T001.adoc" }
+    //sources { include "PDF-CJK-TEST_TW_T002.adoc" }
+    //sources { include "PDF-CJK-TEST_TW_T003.adoc" }
+    //sources { include "PDF-CJK-TEST_TW_P300.adoc" }
+
+    // * Same AS AsciidocFX - asciidoctor_pdf.json
+    attributes "build-gradle": file("build.gradle"),
+        "jrubyVersion": "9.3.8.0",
+        // * "sourcedir" ONLY NEED BY example-manual.adoc
+        //"sourcedir": project.sourceSets.main.java.srcDirs[0],
+        //"toc": "left",
+        //"idprefix": "",
+        //"idseparator": "-",
+        "doctype": "book",
+        "lang": "zh",
+        "safeMode": "SAFE",
+        "scripts": "cjk",
+        "showtitle": "true",
+        "allow-uri-read": "true",
+        // * CONFIG     requires "rouge"
+        "source-highlighter": "rouge",
+        "icons": "font",
+        "imagesdir": "images",
+        "experimental": "true",
+        // * USE JAR
+        // * REMEMBER ENABLE asciidoctorExt fileTree(dir: "${System.getProperty("user.home")}/libs", include: "*.jar")
+        // * OR ENABLE asciidoctorExt "com.life888888.lab:pdf-ext-notosansmono-cjk-tc:0.1.0"
+        "pdf-fontsdir": "uri:classloader:/data/fonts;GEM_FONTS_DIR;",
+        // * USER JAR - MIX JAR AND FOLDER
+        //"pdf-fontsdir": "uri:classloader:/data/fonts;GEM_FONTS_DIR;/home/demo/data/fonts;${System.getProperty("user.home")}/downloaded-resources/fonts;",
+        "pdf-themesdir": "uri:classloader:/data/themes",
+        //"pdf-theme": "default-ext-notosansmono-cjk-tc"
+        // * USE ZIP - UNZIP DIR YOUR HOME DIR /downloaded-resources
+        // * $ install-zip-to-downloaded-resources-dir.sh tc
+        //"pdf-fontsdir": "${System.getProperty("user.home")}/downloaded-resources/fonts;GEM_FONTS_DIR;",
+        //"pdf-themesdir": "${System.getProperty("user.home")}/downloaded-resources/themes",
+        // * https://asciidoctor.github.io/asciidoctor-gradle-plugin/development-3.x/user-guide/
+        // * sourceDir Default: src/docs/asciidoc
+        "pdf-theme": "${sourceDir}/custom-theme/custom-default-ext-notosansmono-cjk-tc-theme.yml"
+        //"pdf-theme": "default-ext-notosansmono-cjk-tc"
+        // * asciidoctor-pdf-cjk-ext Themes List
+        // * TC (Traditional Chinese)
+        // * Font Noto Sans CJK TC
+        //"pdf-theme": "default-ext-notosans-cjk-tc"
+        //"pdf-theme": "default-notosans-cjk-tc"
+        //"pdf-theme": "notosans-cjk-tc"
+        // * Font Noto Sans Mono CJK TC
+        //"pdf-theme": "default-ext-notosansmono-cjk-tc"
+        //"pdf-theme": "default-notosansmono-cjk-tc"
+        //"pdf-theme": "notosansmono-cjk-tc"
+        // * Font Noto Serif CJK TC
+        //"pdf-theme": "default-ext-notoserif-cjk-tc"
+        //"pdf-theme": "default-notoserif-cjk-tc"
+        //"pdf-theme": "notoserif-cjk-tc"
+
+        // * SC (Simplified Chinese)
+        // * Font Noto Sans CJK SC
+        //"pdf-theme": "default-ext-notosans-cjk-sc"
+        //"pdf-theme": "default-notosans-cjk-sc"
+        //"pdf-theme": "notosans-cjk-sc"
+        // * Font Noto Sans Mono CJK SC
+        //"pdf-theme": "default-ext-notosansmono-cjk-sc"
+        //"pdf-theme": "default-notosansmono-cjk-sc"
+        //"pdf-theme": "notosansmono-cjk-sc"
+        // * Font Noto Serif CJK SC
+        //"pdf-theme": "default-ext-notoserif-cjk-sc"
+        //"pdf-theme": "default-notoserif-cjk-sc"
+        //"pdf-theme": "notoserif-cjk-sc"
+
+        // * HK (Hong Kong)
+        // * Font Noto Sans CJK HK
+        //"pdf-theme": "default-ext-notosans-cjk-hk"
+        //"pdf-theme": "default-notosans-cjk-hk"
+        //"pdf-theme": "notosans-cjk-hk"
+        // * Font Noto Sans Mono CJK HK
+        //"pdf-theme": "default-ext-notosansmono-cjk-hk"
+        //"pdf-theme": "default-notosansmono-cjk-hk"
+        //"pdf-theme": "notosansmono-cjk-hk"
+        // * Font Noto Serif CJK HK
+        //"pdf-theme": "default-ext-notoserif-cjk-hk"
+        //"pdf-theme": "default-notoserif-cjk-hk"
+        //"pdf-theme": "notoserif-cjk-hk"
+
+        // * JP (Japanese)
+        // * Font Noto Sans CJK JP
+        //"pdf-theme": "default-ext-notosans-cjk-jp"
+        //"pdf-theme": "default-notosans-cjk-jp"
+        //"pdf-theme": "notosans-cjk-jp"
+        // * Font Noto Sans Mono CJK JP
+        //"pdf-theme": "default-ext-notosansmono-cjk-jp"
+        //"pdf-theme": "default-notosansmono-cjk-jp"
+        //"pdf-theme": "notosansmono-cjk-jp"
+        // * Font Noto Serif CJK JP
+        //"pdf-theme": "default-ext-notoserif-cjk-jp"
+        //"pdf-theme": "default-notoserif-cjk-jp"
+        //"pdf-theme": "notoserif-cjk-jp"
+
+        // * KR (Korean)
+        // * Font Noto Sans CJK KR
+        //"pdf-theme": "default-ext-notosans-cjk-kr"
+        //"pdf-theme": "default-notosans-cjk-kr"
+        //"pdf-theme": "notosans-cjk-kr"
+        // * Font Noto Sans Mono CJK KR
+        //"pdf-theme": "default-ext-notosansmono-cjk-kr"
+        //"pdf-theme": "default-notosansmono-cjk-kr"
+        //"pdf-theme": "notosansmono-cjk-kr"
+        // * Font Noto Serif CJK KR
+        //"pdf-theme": "default-ext-notoserif-cjk-kr"
+        //"pdf-theme": "default-notoserif-cjk-kr"
+        //"pdf-theme": "notoserif-cjk-kr"
+  }
+}
+
+// alias
+task asciidoctor(dependsOn: asciidoctorPdf)

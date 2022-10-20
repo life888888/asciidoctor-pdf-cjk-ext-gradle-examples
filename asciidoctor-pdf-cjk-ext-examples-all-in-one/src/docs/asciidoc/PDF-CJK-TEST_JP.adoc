@@ -1,0 +1,127 @@
+= Asciidoctor PDF CJK テスト
+life888888
+:experimental:
+:doctype: article
+//:doctype: book
+:encoding: utf-8
+:lang: jp
+:toc: left
+:numbered:
+:author: life888888
+:subject: Asciidoctor PDF CJK - 日本語コンテンツを PDF にテスト
+:keywords: Asciidoctor,AsciidoctorJ,AsciidocFX,CJK,PDF,Asciidoctor-PDF,Asciidoctor-PDF-CJK-Ext
+:revnumber: 0.0.1
+:revdate: 2022-10-03
+//CUSTOM THEME
+//:pdf-theme: {docdir}/custom-theme/custom-default-ext-notosans-cjk-jp-theme.yml
+//:pdf-theme: {docdir}/custom-theme/custom-default-notosans-cjk-jp-theme.yml
+//:pdf-theme: {docdir}/custom-theme/custom-notosans-cjk-jp-theme.yml
+//ASCIIDOCTOR-PDF-EXT-CJK THEME
+//:pdf-theme: uri:classloader:/data/themes/default-ext-notosans-cjk-jp-theme.yml
+//:pdf-theme: uri:classloader:/data/themes/default-notosans-cjk-jp-theme.yml
+//:pdf-theme: uri:classloader:/data/themes/notosans-cjk-jp-theme.yml
+//:pdf-theme: default-ext-notosans-cjk-jp
+//:pdf-theme: default-notosans-cjk-jp
+//:pdf-theme: notosans-cjk-jp
+// REPLACE notosans to notosansmono or notoserif
+
+ifdef::backend-pdf[]
+
+* backend: **{backend}**
+
+* pdf-theme: **{pdf-theme}**
+
+* pdf-themesdir: **{pdf-themesdir}**
+
+* pdf-fontsdir: **{pdf-fontsdir}**
+
+endif::[]
+
+これは、AsciidocFXがPDFをエクスポートするときに、日本語のフォント設定が完全​​で正しいかどうかをテストするためのテストファイルです。
+
+生成されたPDFにこのメッセージが表示されている場合は、AsciidocFXフォント設定が完了していることを意味します。
+
+これはGoogle翻訳によって生成されたコンテンツです。 
+
+== フォントスタイルテスト
+
+一般的なフォントスタイル： 祇園精舎（ぎをんしやうじや）の鐘（かね）の声、諸行無常（しよぎやうむじやう）の響（ひび）きあり。
+
+大胆なフォントスタイル： **娑羅双樹（しやらさうじゆ）の花の色、盛者必衰（じやうしやひつすい）の理（ことわり）をあらはす。**
+
+イタリックフォントスタイル： __おごれる人も久（ひさ）しからず、ただ春の夜（よ）の夢（ゆめ）のごとし。__
+
+イタリックの太字フォントスタイル： __**たけき者もつひには滅（ほろ）びぬ、ひとへに風の前の塵（ちり）に同じ。**__
+
+[underline]#下線#、これは^上付き文字^、これは~下付き文字~です 
+
+=== Tier3タイトルテスト 
+
+一般的なフォントスタイル： 祇園精舎（ぎをんしやうじや）の鐘（かね）の声、諸行無常（しよぎやうむじやう）の響（ひび）きあり。
+
+大胆なフォントスタイル： **娑羅双樹（しやらさうじゆ）の花の色、盛者必衰（じやうしやひつすい）の理（ことわり）をあらはす。**
+
+イタリックフォントスタイル： __おごれる人も久（ひさ）しからず、ただ春の夜（よ）の夢（ゆめ）のごとし。__
+
+イタリックの太字フォントスタイル： __**たけき者もつひには滅（ほろ）びぬ、ひとへに風の前の塵（ちり）に同じ。**__
+
+==== Tier4タイトルテスト 
+
+一般的なフォントスタイル： 祇園精舎（ぎをんしやうじや）の鐘（かね）の声、諸行無常（しよぎやうむじやう）の響（ひび）きあり。
+
+大胆なフォントスタイル： **娑羅双樹（しやらさうじゆ）の花の色、盛者必衰（じやうしやひつすい）の理（ことわり）をあらはす。**
+
+イタリックフォントスタイル： __おごれる人も久（ひさ）しからず、ただ春の夜（よ）の夢（ゆめ）のごとし。__
+
+イタリックの太字フォントスタイル： __**たけき者もつひには滅（ほろ）びぬ、ひとへに風の前の塵（ちり）に同じ。**__
+
+== チェック項目
+
+.Checked list
+- [ ] 日本語フォントを表示するかどうか
+- [ ] 一般的なフォントが正常に表示されるかどうか
+- [ ] 太字フォントが正常に表示されるかどうか
+- [ ] イタリックフォントが正常に表示されるかどうか
+- [ ] イタリックの太字フォントは正常に表示されますか？ 
+
+=== 特殊文字のチェック
+
+テストのフォールバック設定は成功しましたか?
+
+- '‑' \u2011 - non-breaking hyphen
+- '•' \u2022 - disc (used for first-level unordered list level)
+- '◦' \u25e6 - circle (used for second-level unordered list level)
+- '▪' \u25aa - square (used for third-level unordered list level)
+- '☑' \u2611 - ballot box checked (used for checked list item)
+- '☐' \u2610 - ballot box unchecked (used for unchecked list item)
+- '—' \u2014 - em-dash (used in quote attribute)
+- '›' \u203a - single right-pointing quotation mark (used in the menu UI element)
+- '►' \u25ba - right pointer (used for media play icon when icon fonts are disabled)
+- '①' \u2460 - circled numbers
+- '②' \u2461 - circled numbers
+- '③' \u2462 - circled numbers
+- '④' \u2463 - circled numbers
+- '⑤' \u2464 - circled numbers
+- '⑥' \u2465 - circled numbers
+- '⑦' \u2466 - circled numbers
+- '⑧' \u2467 - circled numbers
+- '⑨' \u2468 - circled numbers
+- '⑩' \u2469 - circled numbers
+
+=== Emoji Fonts
+
+- '💀'
+- '✌'
+- '🌴'
+- '🐢'
+- '🐐'
+- '🍄'
+- '⚽'
+- '🍻'
+- '👑'
+- '😬'
+- '👀'
+- '🚨'
+- '🏡'
+- '🏆'
+
