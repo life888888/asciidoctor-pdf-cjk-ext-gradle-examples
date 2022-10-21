@@ -34,7 +34,7 @@ Clone the example repository using git:
 [IMPORTANT]
 .Prepare
 ====
-Please read link:UseageType.adoc[] first.
+Please read link:UsageType.adoc[Usage Type] first.
 
 And select one way to install something.
 ====
@@ -57,7 +57,7 @@ While you can do this, I don't recommend it.
 
 Because it takes a long time to execute all at once.
 
-In addition, some projects need to be installed according to specific types. See link:UseageType.adoc[Useage Type].
+In addition, some projects need to be installed according to specific types. See link:UsageType.adoc[Usage Type].
 
 Build processing will fail if certain types of packages are not pre-installed.
 ====
@@ -66,7 +66,7 @@ Suggested reading order for sample projects:
 
 === cjk-test-example
 
-1. Use Asciidoctor PDF CJK Ext Theme (select link:UseageType.adoc[Useage Type] to select one.)
+1. Use Asciidoctor PDF CJK Ext Theme (select link:UsageType.adoc[Usage Type] to select one.)
 
 * 1.1 cjk-test-use-file-example
 * 1.2 cjk-test-use-jar-example
@@ -102,7 +102,7 @@ image:cjk-test-theme-003.png[]
 
 === cjk-demo-example
 
-1. Use Asciidoctor PDF CJK Ext Theme (select link:UseageType.adoc[Useage Type] to select one.)
+1. Use Asciidoctor PDF CJK Ext Theme (select link:UsageType.adoc[Usage Type] to select one.)
 
 * 1.1 cjk-demo-use-file-example
 * 1.2 cjk-demo-use-jar-example
@@ -127,7 +127,7 @@ image:asciidoctor-pdf-cjk-ext-fonts-1.png[]
 .Without setting any pdf-theme, Asciidoctor PDF will use the `default` theme and the font used is NotoSerif.
 image:manual-example_fonts.png[]
 
-2. Use Asciidoctor PDF CJK Ext Theme (select link:UseageType.adoc[Useage Type] to select one.)
+2. Use Asciidoctor PDF CJK Ext Theme (select link:UsageType.adoc[Usage Type] to select one.)
    
 * 2.1 manual-use-file-example 
 * 2.2 manual-use-jar-example 
@@ -162,7 +162,7 @@ Custome theme is extends asciidoctor-pdf-cjk-ext theme.
 
 [cols="1,2,2"]
 |===
-|UseageType| asciidoctor-pdf-cjk-ext theme | use custome theme
+|UsageType| asciidoctor-pdf-cjk-ext theme | use custome theme
 
 |**use-file**
 |XXX-use-file-example 
