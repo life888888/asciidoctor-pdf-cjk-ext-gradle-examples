@@ -177,21 +177,6 @@ Custome theme is extends asciidoctor-pdf-cjk-ext theme.
 |XXX-with-theme-use-maven-repo-example
 |===
 
-
-== Limits
-
-Asciidcotor Gradle Plugin currently only supports Gradle 6.x.
-
-Check Gradle version
-
- $ gradle -v
- 
-If Gradle version is 7.x , 
-
-Please do not use `gradle asciidoctor` to perform building.
-
-Use `./gradlew asciidoctor` instead to execute building.
-
 == Copyright and Licensing
 
 Copyright (C) 2020 The life888888.
