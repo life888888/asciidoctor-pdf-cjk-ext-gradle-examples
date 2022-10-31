@@ -60,7 +60,7 @@ It will install asciidoctor-pdf-cjk-ext THEME to `libs` folder under your user h
 
 ==== Gradle
 
-[source,gradleh]
+[source,bash]
 .build.gradle
 ----
 ...
@@ -116,7 +116,7 @@ Please replace **xx** by your language code( EX: `tc`).
 * "com.life888888.lab:pdf-ext-notosansmono-cjk-xx:0.1.0"
 * "com.life888888.lab:pdf-ext-notosans-cjk-xx:0.1.0"
 
-[source,gradleh]
+[source,bash]
 .build.gradle
 ----
 configurations {
