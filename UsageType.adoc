@@ -38,6 +38,28 @@ It will install asciidoctor-pdf-cjk-ext THEME to `downloaded-resources` folder u
 
 `~/downloaded-resources` or `/home/YOUR-USERNAME/downloaded-resources`
 
+=== Add reference
+
+==== Gradle
+
+[source,bash]
+----
+asciidoctorPdf {
+...
+  asciidoctorj {
+...
+    requires "rouge"
+
+...
+    attributes "build-gradle": file("build.gradle"),
+        "jrubyVersion": "9.3.8.0",
+        "toc": "",
+... 
+        "pdf-fontsdir": "${System.getProperty("user.home")}/downloaded-resources/fonts;GEM_FONTS_DIR;",
+        "pdf-themesdir": "${System.getProperty("user.home")}/downloaded-resources/themes",
+        "pdf-theme": "default-ext-notosans-cjk-tc"
+----
+
 [#UseAsJar]
 == Type2 - Use as Jar file directly Without Maven installed
 
@@ -86,6 +108,9 @@ asciidoctorPdf {
          configurations "asciidoctorExt"
         }
 ...
+        "pdf-fontsdir": "uri:classloader:/data/fonts;GEM_FONTS_DIR;",
+        "pdf-themesdir": "uri:classloader:/data/themes",
+        "pdf-theme": "default-ext-notoserif-cjk-tc"
 ----
 
 
@@ -137,7 +162,10 @@ dependencies {
          ...
          configurations "asciidoctorExt"
         }
-        ...
+...
+        "pdf-fontsdir": "uri:classloader:/data/fonts;GEM_FONTS_DIR;",
+        "pdf-themesdir": "uri:classloader:/data/themes",
+        "pdf-theme": "default-ext-notoserif-cjk-tc"        
 ----
 
 ==== Maven
@@ -171,4 +199,25 @@ dependencies {
                         <version>0.1.0</version>
                     </dependency>
                     ...
+                        <configuration>
+                            <backend>pdf</backend>
+                            <sourceDirectory>src/docs/asciidoc</sourceDirectory>
+                            <sourceDocumentName>README-jp.adoc</sourceDocumentName>
+                            <attributes>
+                                <imagesdir>images</imagesdir>
+                                <source-highlighter>rouge</source-highlighter>
+                                <allow-uri-read/>
+                                <icons>font</icons>
+                                <pagenums/>
+                                <toc/>
+                                <idprefix/>
+                                <idseparator>-</idseparator>
+                                <!-- Fixes line wraps formatting inserting zero-width spaces (ZWSP) before CJ characters -->
+                                <scripts>cjk</scripts>
+                                <!-- Set asciidoctor-pdf-cjk-ext Japanese theme -->
+                                <pdf-theme>default-ext-notosans-cjk-jp</pdf-theme>
+                                <pdf-themesdir>uri:classloader:/data/themes</pdf-themesdir>
+                                <pdf-fontsdir>uri:classloader:/data/fonts;GEM_FONTS_DIR;</pdf-fontsdir>
+                            </attributes>
+                        </configuration>                    
 ----

@@ -177,6 +177,68 @@ Custome theme is extends asciidoctor-pdf-cjk-ext theme.
 |XXX-with-theme-use-maven-repo-example
 |===
 
+== Major Change
+
+=== Plugin Version
+
+Change version to **3.3.2**, Support Gradle 7.x.
+
+[source,bash]
+----
+plugins {
+  id "org.asciidoctor.jvm.pdf" version "3.3.2"
+  id "org.asciidoctor.jvm.gems" version "3.3.2"
+}
+----
+
+=== Maven repositories
+
+Change repositories to **mavenCentral()**.
+
+[source,bash]
+----
+repositories {
+    ruby.gems()
+    mavenCentral()
+}
+----
+
+=== Module Version
+
+Change versions:
+
+* asciidoctorj: 2.5.6
+* pdf: 2.3.0
+* diagram: 2.2.3
+
+[source,bash]
+----
+asciidoctorPdf {
+...  
+  asciidoctorj {
+     modules {
+       asciidoctorj {
+         version "2.5.6"
+        }
+       pdf {
+         version "2.3.0"
+       }
+       diagram {
+         version "2.2.3"
+       }
+     }
+----
+
+=== JRuby Version
+
+Change JRuby version to 9.3.8.0.
+
+[source,bash]
+----
+    attributes "build-gradle": file("build.gradle"),
+        "jrubyVersion": "9.3.8.0",
+----
+
 == Copyright and Licensing
 
 Copyright (C) 2020 The life888888.
