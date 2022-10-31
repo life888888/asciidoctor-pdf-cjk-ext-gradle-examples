@@ -56,6 +56,39 @@ It will install asciidoctor-pdf-cjk-ext THEME to `libs` folder under your user h
 
 `~/libs` or `/home/YOUR-USERNAME/libs`
 
+=== Add reference
+
+==== Gradle
+
+[source,gradleh]
+.build.gradle
+----
+...
+configurations {
+    asciidoctorExt
+}
+
+dependencies {
+  asciidoctorGems "rubygems:rouge:3.15.0"
+
+  asciidoctorExt fileTree(dir: "${System.getProperty("user.home")}/libs", include: "*.jar")
+}
+
+asciidoctorPdf {
+  dependsOn asciidoctorGemsPrepare
+
+  baseDirFollowsSourceFile()
+
+  asciidoctorj {
+     modules {
+       asciidoctorj {
+         version "2.5.6"
+         configurations "asciidoctorExt"
+        }
+...
+----
+
+
 [#UseAsMavenLocal]
 == Type3 - Use as Maven Local Repo, Need install Maven
 
@@ -83,7 +116,7 @@ Please replace **xx** by your language code( EX: `tc`).
 * "com.life888888.lab:pdf-ext-notosansmono-cjk-xx:0.1.0"
 * "com.life888888.lab:pdf-ext-notosans-cjk-xx:0.1.0"
 
-[source,bash]
+[source,gradleh]
 .build.gradle
 ----
 configurations {
@@ -109,7 +142,7 @@ dependencies {
 
 ==== Maven
 
-[source,bash]
+[source,xml]
 .pom.xml
 ----
 <plugins>
