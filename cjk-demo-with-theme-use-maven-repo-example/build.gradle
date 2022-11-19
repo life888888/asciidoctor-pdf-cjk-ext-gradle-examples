@@ -5,7 +5,7 @@ plugins {
 
 apply plugin: "java"
 
-version = "0.1.0-SNAPSHOT"
+version = "0.1.1-SNAPSHOT"
 
 repositories {
     ruby.gems()
@@ -29,9 +29,9 @@ dependencies {
   // * to download asciidoctor-pdf-cjk-ext and install maven locak repo ~/.m2
 
   // * TC (Traditional Chinese)
-  // asciidoctorExt "com.life888888.lab:pdf-ext-notoserif-cjk-tc:0.1.0"
-  // asciidoctorExt "com.life888888.lab:pdf-ext-notosansmono-cjk-tc:0.1.0"
-  asciidoctorExt "com.life888888.lab:pdf-ext-notosans-cjk-tc:0.1.0"
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notoserif-cjk-tc:0.1.1"
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notosansmono-cjk-tc:0.1.1"
+  asciidoctorExt "com.life888888.lab:pdf-ext-notosans-cjk-tc:0.1.1"
 }
 
 asciidoctorPdf {
@@ -81,7 +81,7 @@ asciidoctorPdf {
         "safeMode": "SAFE",
         "scripts": "cjk",
         // * USE JAR
-        // * ENABLE asciidoctorExt "com.life888888.lab:pdf-ext-notosansmono-cjk-tc:0.1.0"
+        // * ENABLE asciidoctorExt "com.life888888.lab:pdf-ext-notosansmono-cjk-tc:0.1.1"
         "pdf-fontsdir": "uri:classloader:/data/fonts;GEM_FONTS_DIR;",
         // * USER JAR - MIX JAR AND FOLDER
         //"pdf-fontsdir": "uri:classloader:/data/fonts;GEM_FONTS_DIR;/home/demo/data/fonts;${System.getProperty("user.home")}/downloaded-resources/fonts;",

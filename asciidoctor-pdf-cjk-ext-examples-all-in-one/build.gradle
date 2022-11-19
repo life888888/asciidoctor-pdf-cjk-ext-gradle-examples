@@ -5,7 +5,7 @@ plugins {
 
 apply plugin: "java"
 
-version = "0.1.0-SNAPSHOT"
+version = "0.1.1-SNAPSHOT"
 
 repositories {
     ruby.gems()
@@ -40,25 +40,25 @@ dependencies {
   // * to download asciidoctor-pdf-cjk-ext and install maven locak repo ~/.m2
 
   // * TC (Traditional Chinese)
-  // asciidoctorExt "com.life888888.lab:pdf-ext-notoserif-cjk-tc:0.1.0"
-  // asciidoctorExt "com.life888888.lab:pdf-ext-notosansmono-cjk-tc:0.1.0"
-  // asciidoctorExt "com.life888888.lab:pdf-ext-notosans-cjk-tc:0.1.0"
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notoserif-cjk-tc:0.1.1"
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notosansmono-cjk-tc:0.1.1"
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notosans-cjk-tc:0.1.1"
   // * SC (Simplified Chinese)
-  // asciidoctorExt "com.life888888.lab:pdf-ext-notoserif-cjk-sc:0.1.0"
-  // asciidoctorExt "com.life888888.lab:pdf-ext-notosansmono-cjk-sc:0.1.0"
-  // asciidoctorExt "com.life888888.lab:pdf-ext-notosans-cjk-sc:0.1.0"
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notoserif-cjk-sc:0.1.1"
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notosansmono-cjk-sc:0.1.1"
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notosans-cjk-sc:0.1.1"
   // * HK (Hong Kong)
-  // asciidoctorExt "com.life888888.lab:pdf-ext-notoserif-cjk-hk:0.1.0"
-  // asciidoctorExt "com.life888888.lab:pdf-ext-notosansmono-cjk-hk:0.1.0"
-  // asciidoctorExt "com.life888888.lab:pdf-ext-notosans-cjk-hk:0.1.0"
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notoserif-cjk-hk:0.1.1"
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notosansmono-cjk-hk:0.1.1"
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notosans-cjk-hk:0.1.1"
   // * JP (Japanese)
-  // asciidoctorExt "com.life888888.lab:pdf-ext-notoserif-cjk-jp:0.1.0"
-  // asciidoctorExt "com.life888888.lab:pdf-ext-notosansmono-cjk-jp:0.1.0"
-  // asciidoctorExt "com.life888888.lab:pdf-ext-notosans-cjk-jp:0.1.0"
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notoserif-cjk-jp:0.1.1"
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notosansmono-cjk-jp:0.1.1"
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notosans-cjk-jp:0.1.1"
   // * KR (Korean)
-  // asciidoctorExt "com.life888888.lab:pdf-ext-notoserif-cjk-kr:0.1.0"
-  // asciidoctorExt "com.life888888.lab:pdf-ext-notosansmono-cjk-kr:0.1.0"
-  // asciidoctorExt "com.life888888.lab:pdf-ext-notosans-cjk-kr:0.1.0"
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notoserif-cjk-kr:0.1.1"
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notosansmono-cjk-kr:0.1.1"
+  // asciidoctorExt "com.life888888.lab:pdf-ext-notosans-cjk-kr:0.1.1"
 }
 
 asciidoctorPdf {
@@ -123,7 +123,7 @@ asciidoctorPdf {
         "experimental": "true",
         // * USE JAR
         // * REMEMBER ENABLE asciidoctorExt fileTree(dir: "${System.getProperty("user.home")}/libs", include: "*.jar")
-        // * OR ENABLE asciidoctorExt "com.life888888.lab:pdf-ext-notosansmono-cjk-tc:0.1.0"
+        // * OR ENABLE asciidoctorExt "com.life888888.lab:pdf-ext-notosansmono-cjk-tc:0.1.1"
         "pdf-fontsdir": "uri:classloader:/data/fonts;GEM_FONTS_DIR;",
         // * USER JAR - MIX JAR AND FOLDER
         //"pdf-fontsdir": "uri:classloader:/data/fonts;GEM_FONTS_DIR;/home/demo/data/fonts;${System.getProperty("user.home")}/downloaded-resources/fonts;",
